@@ -3,12 +3,12 @@
 // ==========================================
 // USER: Replace these with your actual Supabase project URL and Anon Key.
 // You can find them in your Supabase Dashboard under Settings > API.
-const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+const SUPABASE_URL = 'https://lysduxclrsczzuqdjnpo.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_YCWYZuRTxliXl67cebn2zQ_cr10xIS4';;
 
 let supabase;
 
-if (SUPABASE_URL !== 'YOUR_SUPABASE_URL_HERE') {
+if (SUPABASE_URL !== 'https://lysduxclrsczzuqdjnpo.supabase.co') {
   // Initialize Supabase Client
   supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 } else {
@@ -61,7 +61,7 @@ function showAlert(message, type = 'success') {
 function showPage(pageId) {
   Object.values(pages).forEach(p => p.classList.add('hidden'));
   pages[pageId].classList.remove('hidden');
-  
+
   if (state.groupId) {
     nav.menu.classList.remove('hidden');
   } else {
@@ -83,7 +83,7 @@ function renderCategories(containerId, isMasterKey = false) {
   tonyNominees.forEach(category => {
     const section = document.createElement('div');
     section.className = 'category';
-    
+
     const title = document.createElement('h2');
     title.textContent = category.name;
     section.appendChild(title);
@@ -94,9 +94,9 @@ function renderCategories(containerId, isMasterKey = false) {
     category.nominees.forEach(nominee => {
       const card = document.createElement('div');
       card.className = 'nominee-card';
-      
+
       const targetPicks = isMasterKey ? state.masterKey : state.picks;
-      
+
       if (targetPicks[category.id] === nominee.id) {
         card.classList.add('selected');
       }
@@ -109,9 +109,9 @@ function renderCategories(containerId, isMasterKey = false) {
       card.onclick = () => {
         // Toggle selection logic
         if (targetPicks[category.id] === nominee.id) {
-           delete targetPicks[category.id];
+          delete targetPicks[category.id];
         } else {
-           targetPicks[category.id] = nominee.id;
+          targetPicks[category.id] = nominee.id;
         }
 
         // Re-render
@@ -149,22 +149,22 @@ async function fetchMasterKey() {
 }
 
 async function fetchBracket() {
-    if (!supabase || !state.groupId || !state.nickname) return;
-    
-    const { data, error } = await supabase
-        .from('brackets')
-        .select('*')
-        .eq('group_id', state.groupId)
-        .eq('user_name', state.nickname)
-        .limit(1)
-        .single();
-        
-    if (data) {
-        state.bracketId = data.id;
-        state.picks = data.picks;
-        localStorage.setItem('tonyBracketId', data.id);
-        localStorage.setItem('tonyPicks', JSON.stringify(data.picks));
-    }
+  if (!supabase || !state.groupId || !state.nickname) return;
+
+  const { data, error } = await supabase
+    .from('brackets')
+    .select('*')
+    .eq('group_id', state.groupId)
+    .eq('user_name', state.nickname)
+    .limit(1)
+    .single();
+
+  if (data) {
+    state.bracketId = data.id;
+    state.picks = data.picks;
+    localStorage.setItem('tonyBracketId', data.id);
+    localStorage.setItem('tonyPicks', JSON.stringify(data.picks));
+  }
 }
 
 async function loadLeaderboard() {
@@ -197,10 +197,10 @@ async function loadLeaderboard() {
   // Render
   const tbody = document.getElementById('leaderboard-body');
   tbody.innerHTML = '';
-  
+
   if (scoredBrackets.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="3" class="text-center">No brackets found.</td></tr>';
-      return;
+    tbody.innerHTML = '<tr><td colspan="3" class="text-center">No brackets found.</td></tr>';
+    return;
   }
 
   scoredBrackets.forEach((b, index) => {
@@ -234,7 +234,7 @@ document.getElementById('btn-create').addEventListener('click', async () => {
   state.groupId = data.id;
   state.groupName = data.name;
   state.groupCode = data.code;
-  
+
   localStorage.setItem('tonyNickname', nickname);
   localStorage.setItem('tonyGroupId', data.id);
   localStorage.setItem('tonyGroupName', data.name);
@@ -277,7 +277,7 @@ document.getElementById('btn-join').addEventListener('click', async () => {
 
 document.getElementById('btn-save-bracket').addEventListener('click', async () => {
   if (!supabase || !state.groupId) return;
-  
+
   const picksJSON = JSON.stringify(state.picks);
   localStorage.setItem('tonyPicks', picksJSON);
 
@@ -291,11 +291,11 @@ document.getElementById('btn-save-bracket').addEventListener('click', async () =
       user_name: state.nickname,
       picks: state.picks
     }]).select().single();
-    
+
     error = res.error;
     if (res.data) {
-        state.bracketId = res.data.id;
-        localStorage.setItem('tonyBracketId', res.data.id);
+      state.bracketId = res.data.id;
+      localStorage.setItem('tonyBracketId', res.data.id);
     }
   }
 
@@ -304,15 +304,15 @@ document.getElementById('btn-save-bracket').addEventListener('click', async () =
 });
 
 document.getElementById('btn-save-master').addEventListener('click', async () => {
-    if (!supabase) return;
-    // Assuming ID 1 or updating all (there should only be one row)
-    const { data: rows } = await supabase.from('master_key').select('id').limit(1);
-    
-    if (rows && rows.length > 0) {
-        const { error } = await supabase.from('master_key').update({ winners: state.masterKey }).eq('id', rows[0].id);
-        if (error) showAlert('Error saving Master Key', 'error');
-        else showAlert('Master Key updated globally!');
-    }
+  if (!supabase) return;
+  // Assuming ID 1 or updating all (there should only be one row)
+  const { data: rows } = await supabase.from('master_key').select('id').limit(1);
+
+  if (rows && rows.length > 0) {
+    const { error } = await supabase.from('master_key').update({ winners: state.masterKey }).eq('id', rows[0].id);
+    if (error) showAlert('Error saving Master Key', 'error');
+    else showAlert('Master Key updated globally!');
+  }
 });
 
 // Navigation
@@ -329,11 +329,11 @@ nav.leaderboard.addEventListener('click', () => {
 nav.admin.addEventListener('click', async () => {
   const pwd = prompt("Enter Admin Password (try 'admin'):");
   if (pwd === 'admin') {
-      await fetchMasterKey();
-      renderCategories('admin-categories-container', true);
-      showPage('admin');
+    await fetchMasterKey();
+    renderCategories('admin-categories-container', true);
+    showPage('admin');
   } else if (pwd !== null) {
-      showAlert('Incorrect password', 'error');
+    showAlert('Incorrect password', 'error');
   }
 });
 
@@ -342,11 +342,11 @@ nav.logout.addEventListener('click', () => {
   state.groupId = null;
   state.bracketId = null;
   state.picks = {};
-  
+
   document.getElementById('nickname').value = '';
   document.getElementById('join-code').value = '';
   document.getElementById('group-name').value = '';
-  
+
   showPage('home');
 });
 
