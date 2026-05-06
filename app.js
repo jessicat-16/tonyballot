@@ -8,7 +8,7 @@ const SUPABASE_ANON_KEY = 'sb_publishable_YCWYZuRTxliXl67cebn2zQ_cr10xIS4';;
 
 let supabase;
 
-if (SUPABASE_URL !== 'https://lysduxclrsczzuqdjnpo.supabase.co') {
+if (SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('YOUR_SUPABASE_URL_HERE')) {
   // Initialize Supabase Client
   supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 } else {
