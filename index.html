@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 Tony Awards Bracket</title>
+  <meta name="description" content="Pick your winners for the 2026 Tony Awards and compete with friends.">
+  <link rel="stylesheet" href="index.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <header>
+    <h1>2026 Tony Awards Bracket</h1>
+    <p>Predict the winners. Compete with friends.</p>
+    <nav id="nav-menu" class="hidden">
+      <button class="secondary" id="btn-nav-bracket">My Bracket</button>
+      <button class="secondary" id="btn-nav-leaderboard">Leaderboard</button>
+      <button class="secondary" id="btn-nav-admin" style="opacity: 0.5">Admin</button>
+      <button class="secondary" id="btn-nav-logout">Leave Group</button>
+    </nav>
+  </header>
+
+  <main>
+    <div id="alert-container"></div>
+
+    <!-- HOME PAGE -->
+    <section id="page-home" class="card">
+      <h2 class="text-center mb-8">Join the Competition</h2>
+      
+      <div class="input-group">
+        <label for="nickname">Your Nickname</label>
+        <input type="text" id="nickname" placeholder="e.g. BroadwayFan99">
+      </div>
+
+      <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 250px; border-right: 1px solid var(--border-color); padding-right: 1rem;">
+          <h3 class="mb-4">Join Existing Group</h3>
+          <div class="input-group">
+            <label for="join-code">Group Code</label>
+            <input type="text" id="join-code" placeholder="Enter 6-digit code">
+          </div>
+          <button id="btn-join" style="width: 100%">Join Group</button>
+        </div>
+        
+        <div style="flex: 1; min-width: 250px; padding-left: 1rem;">
+          <h3 class="mb-4">Create New Group</h3>
+          <div class="input-group">
+            <label for="group-name">Group Name</label>
+            <input type="text" id="group-name" placeholder="e.g. Drama Club">
+          </div>
+          <button id="btn-create" class="secondary" style="width: 100%">Create Group</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- BRACKET PAGE -->
+    <section id="page-bracket" class="card hidden">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2 id="bracket-group-name">Group Name</h2>
+          <p style="color: var(--text-muted)">Code: <strong id="bracket-group-code" style="color: var(--primary-color)">---</strong></p>
+        </div>
+        <button id="btn-save-bracket">Save Picks</button>
+      </div>
+
+      <div id="categories-container">
+        <!-- Injected via JS -->
+      </div>
+    </section>
+
+    <!-- LEADERBOARD PAGE -->
+    <section id="page-leaderboard" class="card hidden">
+      <h2 class="mb-4">Leaderboard</h2>
+      <p style="color: var(--text-muted)" class="mb-4">Rankings based on the Master Key updates.</p>
+      
+      <div style="overflow-x: auto;">
+        <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Player</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body">
+            <!-- Injected via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ADMIN PAGE -->
+    <section id="page-admin" class="card hidden">
+      <h2 class="mb-4">Master Key (Admin)</h2>
+      <p style="color: var(--text-muted)" class="mb-8">Update the actual winners here to score everyone's brackets globally.</p>
+      
+      <div id="admin-categories-container">
+        <!-- Injected via JS -->
+      </div>
+
+      <button id="btn-save-master" class="mt-4">Update Master Key</button>
+    </section>
+  </main>
+
+  <!-- SUPABASE CONFIG WARNING -->
+  <div id="supabase-warning" style="position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.8); padding: 10px; border: 1px solid var(--primary-color); border-radius: 8px; font-size: 0.8rem; display: none;">
+    Configure Supabase URL and Key in app.js
+  </div>
+
+  <script src="nominees.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
